@@ -1,0 +1,206 @@
+{% load static %}
+{% if categorias %}
+{% for categoria in categorias %}
+    <a href="{% url 'categoria' categoria.id %}">
+    <button style="background: #00420c; border-radius: 6px; padding: 15px; cursor: pointer; color: #fff; border: none; font-size: 16px;">{{categoria.nome_categoria}}</button></a>
+    <br><br>
+    {% if eventos %}
+    {% for evento in eventos %}
+        {% if evento.categoria.id == categoria.id %}
+        <div>
+            <div>
+                <a href="{% url 'evento' evento.id %}">
+                <h6>{{evento.nome_evento}}</h6>
+                <h6>{{evento.nome_do_professor}}</h6>
+                <h6>{{evento.nome_do_curso}}</h6>
+                <h6>{{evento.nome_do_requerimento}}</h6>
+                <h6>{{evento.nome_do_sistema}}</h6>
+                </a>
+            </div>
+        </div>
+        <br>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% if eventos1 %}
+    {% for evento in eventos1 %}
+        {% if evento.categoria.id == categoria.id %}
+        <div>
+            <div>
+                <a href="{% url 'evento' evento.id %}">
+                <h6>{{evento.nome_evento}}</h6>
+                <h6>{{evento.nome_do_professor}}</h6>
+                <h6>{{evento.nome_do_curso}}</h6>
+                <h6>{{evento.nome_do_requerimento}}</h6>
+                <h6>{{evento.nome_do_sistema}}</h6>
+                </a>
+            </div>
+        </div>
+        <br>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% if eventos2 %}
+    {% for evento in eventos2 %}
+        {% if evento.categoria.id == categoria.id %}
+        <div>
+            <div>
+                <a href="{% url 'evento' evento.id %}">
+                <h6>{{evento.nome_evento}}</h6>
+                <h6>{{evento.nome_do_professor}}</h6>
+                <h6>{{evento.nome_do_curso}}</h6>
+                <h6>{{evento.nome_do_requerimento}}</h6>
+                <h6>{{evento.nome_do_sistema}}</h6>
+                </a>
+            </div>
+        </div>
+        <br>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% if eventos3 %}
+    {% for evento in eventos3 %}
+        {% if evento.categoria.id == categoria.id %}
+        <div>
+            <div>
+                <a href="{% url 'evento' evento.id %}">
+                <h6>{{evento.nome_evento}}</h6>
+                <h6>{{evento.nome_do_professor}}</h6>
+                <h6>{{evento.nome_do_curso}}</h6>
+                <h6>{{evento.nome_do_requerimento}}</h6>
+                <h6>{{evento.nome_do_sistema}}</h6>
+                </a>
+            </div>
+        </div>
+        <br>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% if eventos4 %}
+    {% for evento in eventos4 %}
+        {% if evento.categoria.id == categoria.id %}
+        <div>
+            <div>
+                <a href="{% url 'evento' evento.id %}">
+                <h6>{{evento.nome_evento}}</h6>
+                <h6>{{evento.nome_do_professor}}</h6>
+                <h6>{{evento.nome_do_curso}}</h6>
+                <h6>{{evento.nome_do_requerimento}}</h6>
+                <h6>{{evento.nome_do_sistema}}</h6>
+                </a>
+            </div>
+        </div>
+        <br>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% if eventos5 %}
+    {% for evento in eventos5 %}
+        {% if evento.categoria.id == categoria.id %}
+        <div>
+            <div>
+                <a href="{% url 'evento' evento.id %}">
+                <h6>{{evento.nome_evento}}</h6>
+                <h6>{{evento.nome_do_professor}}</h6>
+                <h6>{{evento.nome_do_curso}}</h6>
+                <h6>{{evento.nome_do_requerimento}}</h6>
+                <h6>{{evento.nome_do_sistema}}</h6>
+                </a>
+            </div>
+        </div>
+        <br>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% if eventos6 %}
+    {% for evento in eventos6 %}
+        {% if evento.categoria.id == categoria.id %}
+        <div>
+            <div>
+                <a href="{% url 'evento' evento.id %}">
+                <h6>{{evento.nome_evento}}</h6>
+                <h6>{{evento.nome_do_professor}}</h6>
+                <h6>{{evento.nome_do_curso}}</h6>
+                <h6>{{evento.nome_do_requerimento}}</h6>
+                <h6>{{evento.nome_do_sistema}}</h6>
+                </a>
+            </div>
+        </div>
+        <br>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% if eventos7 %}
+    {% for evento in eventos7 %}
+        {% if evento.categoria.id == categoria.id %}
+        <div>
+            <div>
+                <a href="{% url 'evento' evento.id %}">
+                <h6>{{evento.nome_evento}}</h6>
+                <h6>{{evento.nome_do_professor}}</h6>
+                <h6>{{evento.nome_do_curso}}</h6>
+                <h6>{{evento.nome_do_requerimento}}</h6>
+                <h6>{{evento.nome_do_sistema}}</h6>
+                </a>
+            </div>
+        </div>
+        <br>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% if eventos8 %}
+    {% for evento in eventos8 %}
+        {% if evento.categoria.id == categoria.id %}
+        <div>
+            <div>
+                <a href="{% url 'evento' evento.id %}">
+                <h6>{{evento.nome_evento}}</h6>
+                <h6>{{evento.nome_do_professor}}</h6>
+                <h6>{{evento.nome_do_curso}}</h6>
+                <h6>{{evento.nome_do_requerimento}}</h6>
+                <h6>{{evento.nome_do_sistema}}</h6>
+                </a>
+            </div>
+        </div>
+        <br>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% if eventos9 %}
+    {% for evento in eventos9 %}
+        {% if evento.categoria.id == categoria.id %}
+        <div>
+            <div>
+                <a href="{% url 'evento' evento.id %}">
+                <h6>{{evento.nome_evento}}</h6>
+                <h6>{{evento.nome_do_professor}}</h6>
+                <h6>{{evento.nome_do_curso}}</h6>
+                <h6>{{evento.nome_do_requerimento}}</h6>
+                <h6>{{evento.nome_do_sistema}}</h6>
+                </a>
+            </div>
+        </div>
+        <br>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% if eventos10 %}
+    {% for evento in eventos10 %}
+        {% if evento.categoria.id == categoria.id %}
+        <div>
+            <div>
+                <a href="{% url 'evento' evento.id %}">
+                <h6>{{evento.nome_evento}}</h6>
+                <h6>{{evento.nome_do_professor}}</h6>
+                <h6>{{evento.nome_do_curso}}</h6>
+                <h6>{{evento.nome_do_requerimento}}</h6>
+                <h6>{{evento.nome_do_sistema}}</h6>
+                </a>
+            </div>
+        </div>
+        <br>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+{% endfor %}
+{% endif %}

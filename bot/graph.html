@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Rasa Core Visualisation</title>
+    <script src="https://dagrejs.github.io/project/dagre-d3/latest/dagre-d3.min.js"></script>
+    <script src="https://dagrejs.github.io/project/dagre/latest/dagre.min.js"></script>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://dagrejs.github.io/project/graphlib-dot/v0.6.3/graphlib-dot.js"></script>
+</head>
+<body>
+<div id="errormsg" style="color: #b00"></div>
+<svg>
+    <style id="graph-style">
+        .node.invisible > rect {
+            display: none;
+        }
+
+        .node.start > rect {
+            fill: #7f7;
+            rx: 30;
+            ry: 18;
+        }
+
+        .node.end > rect {
+            fill: #f77;
+            rx: 30;
+            ry: 18;
+        }
+
+        .node:not(.active) > rect, .node:not(.active) > .label {
+            opacity: 0.4;
+        }
+
+        .edgePath:not(.active) path {
+            opacity: 0.4;
+        }
+
+        .node.ellipsis > rect {
+            fill: #CCC;
+        }
+
+        .node.intent > rect {
+            fill: #7ff;
+        }
+
+        .node.dashed > rect {
+            stroke-dasharray: 5;
+        }
+
+        text {
+            font-weight: 300;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serf, serif;
+            font-size: 14px;
+            color: #1f1d1d;
+        }
+
+        .node rect {
+            stroke: #444;
+            fill: #fff;
+            stroke-width: 1.5px;
+        }
+
+        .edgePath path {
+            stroke: #333;
+            stroke-width: 1.5px;
+        }
+
+        svg {
+            position: fixed;
+            top: 10px;
+            left: 0;
+            height: 100%;
+            width: 100%
+        }
+    </style>
+    <g></g>
+</svg>
+<script>
+
+  function serveGraph() {
+    let oldInputGraphValue;
+
+    const url = 'visualization.dot';
+    const refreshInterval = 500;
+
+    // trigger a refresh by fetching an updated graph
+    setInterval(function () {
+      fetch(url).then(r => r.text()).then(dot => {
+        document.getElementById('errormsg').innerHTML = '';
+        if (oldInputGraphValue === dot) return;
+
+        oldInputGraphValue = dot;
+        drawGraph(dot);
+      }).catch(err => {
+        document.getElementById('errormsg').innerHTML =
+          'Failed to update plot. (' + err.message + ')';
+      });
+    }, refreshInterval);
+  }
+
+  function drawGraph(graph) {
+    let g = graphlibDot.read(graph);
+    // Set margins, if not present
+    if (!g.graph().hasOwnProperty("marginx") &&
+      !g.graph().hasOwnProperty("marginy")) {
+      g.graph().marginx = 20;
+      g.graph().marginy = 20;
+    }
+    g.graph().transition = function (selection) {
+      return selection.transition().duration(300);
+    };
+    // Render the graph into svg g
+    d3.select("svg g").call(render, g);
+  }
+  // Set up zoom support
+  const svg = d3.select("svg"),
+    inner = d3.select("svg g"),
+    zoom = d3.zoom().on("zoom", function () {
+      inner.attr("transform", d3.event.transform);
+    });
+  svg.call(zoom);
+
+  // Create and configure the renderer
+  const render = dagreD3.render();
+
+  let isClient = false;
+  isClient = true;
+
+  if (isClient) {
+    // Mark all nodes and their edges as active
+    cssRules = document.getElementById('graph-style').sheet.cssRules;
+    cssRules[3].style.opacity = 1;
+    cssRules[4].style.opacity = 1;
+
+    let graph;
+    graph = `digraph  {
+0 [class="start active", fillcolor=green, fontsize=12, label=START, style=filled];
+"-1" [class=end, fillcolor=red, fontsize=12, label=END, style=filled];
+1 [class="", fontsize=12, label=utter_greet];
+2 [class="", fontsize=12, label=utter_examples];
+3 [class="", fontsize=12, label=utter_ask_help];
+4 [class="", fontsize=12, label=action_get_calendar];
+5 [class="", fontsize=12, label=utter_ask_more_help];
+6 [class="", fontsize=12, label=action_goodbye_and_clear_slots];
+10 [class="", fontsize=12, label=utter_ask_courses_modality];
+11 [class="", fontsize=12, label=action_get_courses];
+12 [class="", fontsize=12, label=action_get_info_course];
+20 [class="", fontsize=12, label=utter_req_to_ask];
+29 [class="", fontsize=12, label=utter_ask_modality_redo_register];
+30 [class="", fontsize=12, label=action_courses_redo_register];
+31 [class="", fontsize=12, label=action_inform_redo_register];
+48 [class="", fontsize=12, label=utter_ask_ingress_modality];
+49 [class="", fontsize=12, label=action_inform_do_register];
+65 [class="", fontsize=12, label=requirement_form];
+66 [class="", fontsize=12, label=action_get_requirements];
+82 [class="", fontsize=12, label=utter_ask_system_doc_register];
+83 [class="", fontsize=12, label=action_get_doc_register];
+99 [class="", fontsize=12, label=professor_name_form];
+100 [class="", fontsize=12, label=action_get_professor_contact];
+116 [class="", fontsize=12, label=utter_ask_classes_modality];
+117 [class="", fontsize=12, label=action_get_classes];
+118 [class="", fontsize=12, label=action_get_info_classe];
+16517 [class="", fontsize=12, label="..."];
+16520 [class="", fontsize=12, label=utter_iamabot];
+16522 [class="", fontsize=12, label=action_what_bot_do];
+16524 [class="", fontsize=12, label=utter_please_rephrase];
+16525 [class="", fontsize=12, label=utter_ask_more_help];
+16526 [class=intent, fillcolor=lightblue, label=oie, shape=rect, style=filled];
+16527 [class=intent, fillcolor=lightblue, label="início das férias de inverno", shape=rect, style=filled];
+16528 [class=intent, fillcolor=lightblue, label="quais cursos", shape=rect, style=filled];
+16529 [class=intent, fillcolor=lightblue, label=rematricola, shape=rect, style=filled];
+16530 [class=intent, fillcolor=lightblue, label="onde fazer a matrícula", shape=rect, style=filled];
+16531 [class=intent, fillcolor=lightblue, label="quero os requerimentos", shape=rect, style=filled];
+16532 [class=intent, fillcolor=lightblue, label="quero um atestado", shape=rect, style=filled];
+16533 [class=intent, fillcolor=lightblue, label="email dos professores", shape=rect, style=filled];
+16534 [class=intent, fillcolor=lightblue, label="aulas de 2022", shape=rect, style=filled];
+16535 [class=intent, fillcolor=lightblue, label=nao, shape=rect, style=filled];
+16536 [class=intent, fillcolor=lightblue, label=claro, shape=rect, style=filled];
+16537 [class=intent, fillcolor=lightblue, label=subsequente, shape=rect, style=filled];
+16538 [class=intent, fillcolor=lightblue, label=geoprocessamento, shape=rect, style=filled];
+16539 [class=intent, fillcolor=lightblue, label="cursos ofertados", shape=rect, style=filled];
+16540 [class=intent, fillcolor=lightblue, label="início das férias de verão", shape=rect, style=filled];
+16541 [class=intent, fillcolor=lightblue, label="rematricula do curso", shape=rect, style=filled];
+16542 [class=intent, fillcolor=lightblue, label="Como fazer a inscrição?", shape=rect, style=filled];
+16543 [class=intent, fillcolor=lightblue, label="justificar falta", shape=rect, style=filled];
+16544 [class=intent, fillcolor=lightblue, label="mostrar comprovante de matricula", shape=rect, style=filled];
+16545 [class=intent, fillcolor=lightblue, label="email dos prof", shape=rect, style=filled];
+16546 [class=intent, fillcolor=lightblue, label="disciplinas primeiro", shape=rect, style=filled];
+16547 [class=intent, fillcolor=lightblue, label=integrado, shape=rect, style=filled];
+16548 [class=intent, fillcolor=lightblue, label="informática", shape=rect, style=filled];
+16549 [class=intent, fillcolor=lightblue, label=Enem, shape=rect, style=filled];
+16550 [class=intent, fillcolor=lightblue, label=SIA, shape=rect, style=filled];
+16551 [class=intent, fillcolor=lightblue, label=superior, shape=rect, style=filled];
+16552 [class=intent, fillcolor=lightblue, label="pedagógica não licenciados", shape=rect, style=filled];
+16553 [class=intent, fillcolor=lightblue, label="até mais", shape=rect, style=filled];
+16554 [class=intent, fillcolor=lightblue, label="você é um robo?", shape=rect, style=filled];
+16555 [class=intent, fillcolor=lightblue, label="o que tu pode fazer?", shape=rect, style=filled];
+16556 [class=intent, fillcolor=lightblue, label="/nlu_fallback", shape=rect, style=filled];
+0 -> 16517  [class="", key=NONE, label=""];
+0 -> 16526  [class="", key=0];
+1 -> 2  [class="", key=NONE, label=""];
+2 -> 3  [class="", key=NONE, label=""];
+3 -> 16527  [class="", key=0];
+3 -> 16528  [class="", key=0];
+3 -> 16529  [class="", key=0];
+3 -> 16530  [class="", key=0];
+3 -> 16531  [class="", key=0];
+3 -> 16532  [class="", key=0];
+3 -> 16533  [class="", key=0];
+3 -> 16534  [class="", key=0];
+4 -> 5  [class="", key=NONE, label=""];
+5 -> 16535  [class="", key=0];
+5 -> 16536  [class="", key=0];
+6 -> "-1"  [class="", key=NONE, label=""];
+10 -> 16537  [class="", key=0];
+11 -> 16538  [class="", key=0];
+12 -> 5  [class="", key=NONE, label=""];
+20 -> 16539  [class="", key=0];
+20 -> 16540  [class="", key=0];
+20 -> 16541  [class="", key=0];
+20 -> 16542  [class="", key=0];
+20 -> 16543  [class="", key=0];
+20 -> 16544  [class="", key=0];
+20 -> 16545  [class="", key=0];
+20 -> 16546  [class="", key=0];
+29 -> 16547  [class="", key=0];
+30 -> 16548  [class="", key=0];
+31 -> 5  [class="", key=NONE, label=""];
+48 -> 16549  [class="", key=0];
+49 -> 5  [class="", key=NONE, label=""];
+65 -> 66  [class="", key=NONE, label=""];
+66 -> 5  [class="", key=NONE, label=""];
+82 -> 16550  [class="", key=0];
+83 -> 5  [class="", key=NONE, label=""];
+99 -> 100  [class="", key=NONE, label=""];
+100 -> 5  [class="", key=NONE, label=""];
+116 -> 16551  [class="", key=0];
+117 -> 16552  [class="", key=0];
+118 -> 5  [class="", key=NONE, label=""];
+16517 -> 16553  [class="", key=0];
+16517 -> 16554  [class="", key=0];
+16517 -> 16555  [class="", key=0];
+16517 -> 16556  [class="", key=0];
+16520 -> "-1"  [class="", key=NONE, label=""];
+16522 -> "-1"  [class="", key=NONE, label=""];
+16524 -> 16525  [class="", key=NONE, label=""];
+16525 -> "-1"  [class="", key=NONE, label=""];
+16526 -> 1  [class="", key=0];
+16527 -> 4  [class="", key=0];
+16528 -> 10  [class="", key=0];
+16529 -> 29  [class="", key=0];
+16530 -> 48  [class="", key=0];
+16531 -> 65  [class="", key=0];
+16532 -> 82  [class="", key=0];
+16533 -> 99  [class="", key=0];
+16534 -> 116  [class="", key=0];
+16535 -> 6  [class="", key=0];
+16536 -> 20  [class="", key=0];
+16537 -> 11  [class="", key=0];
+16538 -> 12  [class="", key=0];
+16539 -> 10  [class="", key=0];
+16540 -> 4  [class="", key=0];
+16541 -> 29  [class="", key=0];
+16542 -> 48  [class="", key=0];
+16543 -> 65  [class="", key=0];
+16544 -> 82  [class="", key=0];
+16545 -> 99  [class="", key=0];
+16546 -> 116  [class="", key=0];
+16547 -> 30  [class="", key=0];
+16548 -> 31  [class="", key=0];
+16549 -> 49  [class="", key=0];
+16550 -> 83  [class="", key=0];
+16551 -> 117  [class="", key=0];
+16552 -> 118  [class="", key=0];
+16553 -> 6  [class="", key=0];
+16554 -> 16520  [class="", key=0];
+16555 -> 16522  [class="", key=0];
+16556 -> 16524  [class="", key=0];
+}
+`;
+    drawGraph(graph);
+  } else {
+    serveGraph();
+  }
+
+
+</script>
+</body>
+</html>
